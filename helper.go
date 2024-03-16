@@ -19,6 +19,7 @@ func RequestHTTP(param Param) (int, []byte, error) {
 	log := newm_logger.Log{
 		Url:    param.Url,
 		Method: param.Method,
+		RequestId: param.RequestId,
 	}
 
 	client := &http.Client{}
