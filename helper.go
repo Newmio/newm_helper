@@ -13,14 +13,19 @@ import (
 	"github.com/Newmio/newm_logger"
 )
 
-/////
+func ErrorResponse(err string) map[string]string {
+	return map[string]string{
+		"status":      "error",
+		"description": err,
+	}
+}
 
 func RequestHTTP(param Param) (int, []byte, error) {
 	var body []byte
 
 	log := newm_logger.Log{
-		Url:    param.Url,
-		Method: param.Method,
+		Url:       param.Url,
+		Method:    param.Method,
 		RequestId: param.RequestId,
 	}
 
