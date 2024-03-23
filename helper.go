@@ -8,10 +8,27 @@ import (
 	"io"
 	"net/http"
 	"runtime"
+	"strings"
+	"text/template"
 	"time"
 
 	"github.com/Newmio/newm_logger"
 )
+
+func RenderHtml(directory string, data interface{}) (string, error) {
+	buffer := new(strings.Builder)
+
+	tmpl, err := template.ParseFiles(directory)
+	if err != nil {
+		return "", err
+	}
+
+	if err := tmpl.Execute(buffer, data); err != nil {
+		return "", err
+	}
+
+	return buffer.String(), nil
+}
 
 func ErrorResponse(err string) map[string]string {
 	return map[string]string{
