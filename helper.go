@@ -40,6 +40,9 @@ func ErrorResponse(err string) map[string]string {
 func RequestHTTP(param Param) (int, []byte, error) {
 	var body []byte
 
+	param.Url = strings.Replace(param.Url, " ", "%20", -1)
+	param.Url = strings.Replace(param.Url, "+", "%2B", -1)
+
 	log := newm_logger.Log{
 		Url:       param.Url,
 		Method:    param.Method,
