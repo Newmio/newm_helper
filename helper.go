@@ -43,6 +43,9 @@ func RequestHTTP(param Param) (int, []byte, error) {
 	param.Url = strings.Replace(param.Url, " ", "%20", -1)
 	param.Url = strings.Replace(param.Url, "+", "%2B", -1)
 
+	fmt.Println("=================== newm-helper ===================")
+	fmt.Println(param.Url)
+
 	log := newm_logger.Log{
 		Url:       param.Url,
 		Method:    param.Method,
