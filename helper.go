@@ -24,7 +24,13 @@ func СontainsSQLInjection(query string) bool {
 func RenderHtml(directory string, data interface{}) (string, error) {
 	buffer := new(strings.Builder)
 
-	tmpl, err := template.ParseFiles(directory)
+	funcMap := template.FuncMap{
+		"add": func(x, y int) int {
+			return x+y
+		},
+	}
+
+	tmpl, err := template.New("").Funcs(funcMap).ParseFiles(directory)
 	if err != nil {
 		return "", err
 	}
