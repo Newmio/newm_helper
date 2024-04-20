@@ -31,7 +31,7 @@ func RenderHtml(directory string, data interface{}) (string, error) {
 		},
 	}
 
-	tmpl, err := template.New("example.html").Funcs(funcMap).ParseFiles(directory)
+	tmpl, err := template.New("example").Funcs(funcMap).ParseFiles(directory)
 	if err != nil {
 		return "", err
 	}
