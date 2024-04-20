@@ -20,8 +20,6 @@ func СontainsSQLInjection(query string) bool {
 	sqlInjectionPattern := regexp.MustCompile(`(?i)\b(SELECT|UPDATE|DELETE|FROM|WHERE|DROP|UNION|AND|OR)\b`)
 	return sqlInjectionPattern.MatchString(query)
 }
-
-//
 func RenderHtml(directory string, data interface{}) (string, error) {
 	buffer := new(strings.Builder)
 
