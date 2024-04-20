@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"path/filepath"
 	"regexp"
 	"runtime"
 	"strings"
@@ -25,16 +26,18 @@ func RenderHtml(directory string, data interface{}) (string, error) {
 
 	funcMap := template.FuncMap{
 		"add": func(x, y int) int {
-			return x+y
+			return x + y
 		},
 	}
 
-	tmpl, err := template.New(directory).Funcs(funcMap).ParseFiles(directory)
+	name := strings.Replace(filepath.Base(directory), ".html", "", -1)
+
+	tmpl, err := template.New(name).Funcs(funcMap).ParseFiles(directory)
 	if err != nil {
 		return "", err
 	}
 
-	if err := tmpl.ExecuteTemplate(buffer, directory, data); err != nil {
+	if err := tmpl.ExecuteTemplate(buffer, name, data); err != nil {
 		return "", err
 	}
 
