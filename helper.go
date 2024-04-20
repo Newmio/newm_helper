@@ -31,12 +31,12 @@ func RenderHtml(directory string, data interface{}) (string, error) {
 		},
 	}
 
-	tmpl, err := template.New("").Funcs(funcMap).ParseFiles(directory)
+	tmpl, err := template.New("example").Funcs(funcMap).ParseFiles(directory)
 	if err != nil {
 		return "", err
 	}
 
-	if err := tmpl.Execute(buffer, data); err != nil {
+	if err := tmpl.ExecuteTemplate(buffer, "example", data); err != nil {
 		return "", err
 	}
 
