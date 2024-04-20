@@ -30,7 +30,7 @@ func RenderHtml(directory string, data interface{}) (string, error) {
 		},
 	}
 
-	name := strings.Replace(filepath.Base(directory), ".html", "", -1)
+	name := filepath.Base(directory)
 
 	tmpl, err := template.New(name).Funcs(funcMap).ParseFiles(directory)
 	if err != nil {
