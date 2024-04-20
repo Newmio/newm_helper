@@ -21,6 +21,7 @@ func СontainsSQLInjection(query string) bool {
 	return sqlInjectionPattern.MatchString(query)
 }
 
+//
 func RenderHtml(directory string, data interface{}) (string, error) {
 	buffer := new(strings.Builder)
 
