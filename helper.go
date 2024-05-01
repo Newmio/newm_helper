@@ -2,6 +2,8 @@ package newm_helper
 
 import (
 	"bytes"
+	"crypto/md5"
+	"encoding/hex"
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
@@ -27,6 +29,12 @@ func RenderHtml(directory string, data interface{}) (string, error) {
 	funcMap := template.FuncMap{
 		"add": func(x, y int) int {
 			return x + y
+		},
+
+		"idForStr": func(str string) string {
+			hash := md5.New()
+			hash.Write([]byte(str))
+			return hex.EncodeToString(hash.Sum(nil))
 		},
 	}
 
