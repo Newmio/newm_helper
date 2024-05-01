@@ -34,7 +34,7 @@ func RenderHtml(directory string, data interface{}) (string, error) {
 		"idForStr": func(str string) string {
 			hash := md5.New()
 			hash.Write([]byte(str))
-			return hex.EncodeToString(hash.Sum(nil))
+			return "x" + hex.EncodeToString(hash.Sum(nil))
 		},
 	}
 
