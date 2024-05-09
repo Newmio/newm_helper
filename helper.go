@@ -14,9 +14,6 @@ import (
 	"runtime"
 	"strings"
 	"text/template"
-	"time"
-
-	"github.com/Newmio/newm_logger"
 )
 
 func СontainsSQLInjection(query string) bool {
@@ -65,12 +62,6 @@ func RequestHTTP(param Param) (int, []byte, error) {
 	param.Url = strings.Replace(param.Url, " ", "%20", -1)
 	param.Url = strings.Replace(param.Url, "+", "%2B", -1)
 
-	log := newm_logger.Log{
-		Url:       param.Url,
-		Method:    param.Method,
-		RequestId: param.RequestId,
-	}
-
 	client := &http.Client{}
 
 	if param.BodyType == "JSON" {
@@ -93,16 +84,12 @@ func RequestHTTP(param Param) (int, []byte, error) {
 		body = nil
 	}
 
-	log.BodyReq = string(body)
-	log.DateStart = time.Now().Format("2006-01-02 15:04:05")
-
 	req, err := http.NewRequest(param.Method, param.Url, bytes.NewBuffer(body))
 	if err != nil {
 		return 500, nil, err
 	}
 
 	for key, value := range param.Headers {
-		log.HeadersReq += key + ": " + value.(string)
 		req.Header.Set(key, value.(string))
 	}
 
@@ -112,29 +99,13 @@ func RequestHTTP(param Param) (int, []byte, error) {
 			return 504, nil, err
 		}
 
-		log.Status = 404
-		log.DateStop = time.Now().Format("2006-01-02 15:04:05")
 		return 404, nil, err
 	}
 	defer resp.Body.Close()
 
-	log.DateStop = time.Now().Format("2006-01-02 15:04:05")
-	log.Status = resp.StatusCode
-
 	bodyResp, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return 500, nil, err
-	}
-	log.BodyResp = string(bodyResp)
-
-	for key, values := range resp.Header {
-		log.HeadersResp = fmt.Sprintf("%s: %v", key, values)
-	}
-
-	log.Success = true
-
-	if param.CreateLog {
-		newm_logger.CreateLog(log)
 	}
 
 	return resp.StatusCode, bodyResp, nil
